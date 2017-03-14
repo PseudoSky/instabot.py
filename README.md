@@ -46,33 +46,33 @@ bot = InstaBot('login', 'password',
 | media_max_like       | int | don't like if media has more than ... likes          | 0                                | 100                                             |
 | media_min_like       | int | don't like if media has less than ... likes          | 0                                | 5                                               |
 | follow_per_day       | int | how many users to follow in 1 day                    | 0                                | 100                                             |
-| follow_time          | int | how many times passes before the  bot unfollows a followed user (sec) | 5 * 60 * 60     | 60 * 60                                         |
-| unfollow_per_day     | int | how many user unfollows the bot does in day          | 0                                | 100                                             |
-| comments_per_day     | int | how many comments the bot writes in a day            | 0                                | 50                                              |
+| follow_time          | int | how much time passes before the  bot unfollows a followed user (sec) | 5 * 60 * 60     | 60 * 60                                         |
+| unfollow_per_day     | int | how many users the bot unfollows per day          | 0                                | 100                                             |
+| comments_per_day     | int | how many comments the bot writes per day            | 0                                | 50                                              |
 | tag_list             | list| list of tag the bot uses                             | ['cat', 'car', 'dog']            | ['moto', 'girl', 'python']                      |
 | tag_blacklist        | list| list of tags the bot refuses to like                 | []                               | ['rain', 'thunderstorm']                        |
-| user_blacklist       | dict| don't like posts from certain users                  | {}                               | {'hellokitty':'', 'hellokitty3':''}             |
-| max_like_for_one_tag | int | bot get 21 media from one tag, how many use by row   | 5                                | 10                                              |
+| user_blacklist       | dict| exclude posts from certain users                  | {}                               | {'hellokitty':'', 'hellokitty3':''}             |
+| max_like_for_one_tag | int | Maximum number of likes a post can have before the bot will ignore   | 5                                | 10                                              |
 | unfollow_break_min   | int | Minimum seconds for unfollow break pause             | 15                               | 30                                              |
 | unfollow_break_max   | int | Maximum seconds for unfollow break pause             | 30                               | 60                                              |
 | log_mod              | int | logging mod                                          | 0                                | 0 log to console, 1 log to file, 2 no log.      |
 | proxy             | string | Access instagram through a proxy server              |                                  | Without authentication: proxy:port, example: 10.10.1.10:3128, with authentication: user:password@proxy:port, example: user:password@10.10.1.10:3128 |
 
 ####2) Set likes and unlike:
-How many likes set bot in one day. Default value is 1000 likes per 24 hours.
-If you want to do more than 1000 likes in day - instagram can ban you.
-Usually this bot is used 24/7 and it's default setup to distripute 1000 likes in day evenly. If you want more likes in one moment, set this parameter to 5000 or 10000 or more. Formula: set like with delay = `(24 hour * 60 minute * 60 second / like_per_day)`
-######Be careful, don't set more than 1000 like in day or you can be banned! Be warned!!
+How many likes the bot will make in one day. Default value is 1000 likes per 24 hours.
+If you want to do more than 1000 likes in day - instagram may ban you.
+Usually this bot is used 24/7 and it's default setup to evenly distribute 1000 likes throughout the day. If you want more likes in one moment, set this parameter to 5000 or 10000 or more. Formula: set like with delay = `(24 hour * 60 minute * 60 second / like_per_day)`
+######Be careful, don't set more than 1000 like in a given day or you may be banned! Be warned!!
 ```python
 like_per_day=1000
 ```
-Don't like media (photo or video) if it have more than `media_max_like` likes. `media_max_like = 0` will ignore this property. If media have too much likes - your like have not feedback.
+Don't like media (photo or video) if it have more than `media_max_like` likes. `media_max_like = 0` will ignore this property. 
 Don't like media (photo or video) if it have less than `media_min_like` likes. `media_min_like = 0` will ignore this property.
 ```python
 media_max_like=10
 media_min_like=0
 ```
-Tag list to like.
+Tag list to search for and like.
 ```python
 tag_list = ['cat', 'car', 'dog']
 ```
@@ -114,10 +114,10 @@ Unfollow:
 ```python
 bot.unfollow('user_id')
 ```
-For example (follow and unfollow user with id 111111111):
+For example (follow and unfollow user with id "12345"):
 ```python
-bot.follow(111111111)
-bot.unfollow(111111111)
+bot.follow(12345)
+bot.unfollow(12345)
 ```
 ####5) Else:
 Log mod: `log_mod=0` log to console, `log_mod=1` log to file, `log_mod=2` no log.
@@ -136,17 +136,17 @@ This will cause a delay of anywhere between 15 to 30 seconds between every unfol
 bot.logout()
 ```
 ## Usage examples
-Standard use (will like by loop, all default tag):
+Standard use (will loop through and like all content from the default tag):
 ```python
 bot = InstaBot('login', 'password')
 bot.auto_mod()
 ```
-Standard use with your tag (will like by loop, all your tag):
+Standard use with a list of tags (will like all content from all tags specified):
 ```python
 bot = InstaBot('login', 'password', tag_list = ['with', 'your', 'tag'])
 bot.auto_mod()
 ```
-Standard use with change default settings (you should know what you do!):
+Standard use with overriding default settings (you should know what you do!):
 ```python
 bot = InstaBot('login', 'password',
                like_in_day=100000,
@@ -157,7 +157,7 @@ bot = InstaBot('login', 'password',
                log_mod = 1)
 bot.auto_mod()
 ```
-Get media_id buy one tag `'python'` and like 4 of them:
+Get media_id from a single tag `'python'` and like 4 items from the results:
 ```python
 bot = InstaBot('login', 'password')
 bot.get_media_id_by_tag('python')
