@@ -15,10 +15,10 @@ A working Instagram account
 
 ## Usage
 #### Example of usage:
-For example see `example.py`. Just change the login and password information with your own, then run `example.py` and the bot will start doing it's magic!
+For example see `example.py`. Just update the login and password information with your own, then run `example.py` and the bot will start working its magic!
 
 ####1) Login:
-Login automatic, as followed, by creating the `InstaBot` class element:
+Login by creating the `InstaBot` class element:
 ```python
 bot = InstaBot('login', 'password',
                 like_per_day=1000,
